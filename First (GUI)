@@ -1,0 +1,57 @@
+import tkinter as tk
+import random
+import string
+
+def generate_password(length):
+    if length.isdigit():
+        chars = string.ascii_letters + string.digits + string.punctuation
+        password = ''.join(random.choice(chars) for _ in range(int(length)))
+        return password
+    else:
+        return 'Invalid length'
+
+    
+def validate_length(text):
+    if text == '':
+        return True
+    elif text.isdigit():
+        return int(text) > 0
+    else:
+        return False
+
+    
+def invalid_length():
+    label.config(text='Invalid length', fg='red')
+
+    
+window = tk.Tk()
+window.title('Santiagos Password Generator')
+''
+window.geometry('800x600')
+''
+window.configure(bg='#1a1a1a', padx=20, pady=20)
+# Create a label for the entry
+entry_label = tk.Label(window, text='Enter password length:', font=('Arial', 20), bg='#1a1a1a', fg='#f0f0f0')
+entry_label.pack(side=tk.TOP, pady=10)
+
+# Create an entry for the password length
+pass_entry = tk.Entry(window, width=20, font=('Arial', 20), bg='#1a1a1a', fg='#f0f0f0', textvariable="")
+pass_entry.pack(side=tk.TOP, pady=10)
+
+# Add validation to the entry
+pass_entry.config(validate='focusout', validatecommand=(window.register(validate_length), '%P'), invalidcommand=invalid_length)
+
+# Create a label for the password
+label = tk.Label(window, text='Password', font=('Arial', 20), bg='#1a1a1a', fg='#f0f0f0')
+label.pack(side=tk.TOP, pady=10)
+
+# Create a button to generate the password
+passwordtext=generate_password(30)
+window.register(generate_password)
+button = tk.Button(window, text='Generate Password', font=('Arial', 20), bg='#1a1a1a', fg='#f0f0f0', command=lambda: label.config(generate_password(10), fg='#f0f0f0'))
+button.pack(side=tk.TOP, pady=30)
+
+# Start the main loop
+window.mainloop()
+
+
